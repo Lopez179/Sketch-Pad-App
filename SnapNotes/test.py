@@ -25,12 +25,16 @@ def graphite(point,colour="black"):
     Userspace.create_rectangle(x,y,x,y,fill=colour)
     placement_record.append((x,y))
 
-def pencil_tip(center,radius,colour="black"):
-    frame_length = radius*2
+def round_point(center, radius, colour="black"):
     for i in range(center[0]-radius,center[0]+radius+1):
         for j in range(center[1]-radius,center[1]+radius+1):
             if (i - center[0])**2 + (j - center[1])**2 <= radius**2:
-                graphite((i,j), colour)
+                    graphite((i,j), colour)
+
+def pencil_tip(center,radius,colour="black"):
+    for i in range(center[0]-radius,center[0]+radius):
+        for j in range(center[1]-radius,center[1]+radius):
+            graphite((i,j), colour)
 
 
 def on_stroke(event):
@@ -41,7 +45,7 @@ def on_stroke(event):
 def on_tap(event):
     x, y = event.x, event.y
 
-    pencil_tip((x,y), pencil_size)
+    round_point((x,y), pencil_size)
 
 
 Userspace = tk.Canvas(root, height=(run_height) - 30, width=run_width)
