@@ -72,7 +72,8 @@ def on_hold_down(event):
         last_point = (x,y)
     elif pencil_mode == "erase":
         for i in Userboard.get_point(x,y).linked_strokes:
-            Userboard.delete_stroke(i)
+            if i in Userboard.get_point(x,y).linked_strokes:
+                Userboard.delete_stroke(i)
 
 
 def on_tap(event):
@@ -86,7 +87,9 @@ def on_tap(event):
         
         last_point = (x,y)
         round_point(stroke_record[-1], (x,y), pencil_size)
-
+    elif pencil_mode == "erase":
+        for i in Userboard.get_point(x,y).linked_strokes:
+            Userboard.delete_stroke(i)
 
 
 
@@ -105,20 +108,32 @@ def on_erase():
 def on_pencil():
     global pencil_mode
     pencil_mode = "draw"
-    print(stroke_record)
+    
+    garbage = True
+    while garbage:
+        try:
+            Userboard.stroke_list.remove(None)
+        except:
+            garbage = False
 
+def on_debug():
+    print(Userboard.stroke_list)
 
 Userspace = tk.Canvas(root, height=(run_height) - 30, width=run_width)
-Userspace.grid(row=1,column=0, columnspan=2)
+Userspace.grid(row=1,column=0, columnspan=3)
 
 EraserButton = tk.Button(root, text="Eraser", font=("Arieal", 10), command=on_erase)
 EraserButton.grid(row=0,column=0)
 PencilButton = tk.Button(root, text="Pencil", font=("Arieal", 10), command=on_pencil)
 PencilButton.grid(row=0,column=1)
+DebugButton = tk.Button(root, text="Debug", font=("Arial", 10), command=on_debug)
+DebugButton.grid(row=0,column=2)
 
 Userspace.bind('<B1-Motion>', on_hold_down)
 Userspace.bind('<Button-1>', on_tap)
 Userspace.bind('<ButtonRelease-1>', on_release)
+
+
 
 
 root.mainloop()

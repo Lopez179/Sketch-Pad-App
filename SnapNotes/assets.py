@@ -41,7 +41,9 @@ class Board:
     
     def delete_stroke(self, stroke_address):
         stroke_address.erase_coverage()
-        self.stroke_list.remove(stroke_address)
+        for i in range(len(self.stroke_list)):
+            if self.stroke_list[i] == stroke_address:
+                self.stroke_list[i] = None
     
 
         
@@ -51,7 +53,6 @@ class Stroke:
         self.Userspace = Userspace
         self.colour = colour
         self.coverage = []
-    #Userspace is only defined in main.py, this will not work if the canvas is not named Userspace
     def erase_coverage(self):
         for i in self.coverage:
             self.Userspace.delete(i)
