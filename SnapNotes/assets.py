@@ -1,7 +1,5 @@
 import tkinter as tk
 
-placement_record = []
-
 class PointLocation:
     def __init__(self,x_loc,y_loc):
         self.x = x_loc
@@ -46,16 +44,17 @@ class Board:
                 self.stroke_list[i] = None
     
 
-        
-
 class Stroke:
     def __init__(self, colour, Userspace):
         self.Userspace = Userspace
         self.colour = colour
         self.coverage = []
+        self.coverage_points = []
+
     def erase_coverage(self):
         for i in self.coverage:
             self.Userspace.delete(i)
+
 
 
 if __name__ == "__main__":

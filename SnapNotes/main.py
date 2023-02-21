@@ -4,6 +4,7 @@ from ctypes import windll
 import os
 import pickle as pck
 import math
+import pickle 
 
 #Settings
 run_height = 700
@@ -26,6 +27,7 @@ def graphite(stroke, point, colour):
     x = point[0]
     y = point[1]
     stroke.coverage.append(Userspace.create_rectangle(x,y,x,y,fill=colour))
+    stroke.coverage_points.append((x,y))
     Userboard.link_point(x,y, stroke)
 
 # uses graphite() to colour an small area
@@ -119,15 +121,21 @@ def on_pencil():
 def on_debug():
     print(Userboard.stroke_list)
 
+#def save():
+#    with open('Saves\\savefile'+'.huf', 'wb') as compressed:
+#        pickle.dump(Userboard, compressed)
+
 Userspace = tk.Canvas(root, height=(run_height) - 30, width=run_width)
-Userspace.grid(row=1,column=0, columnspan=3)
+Userspace.grid(row=1,column=0, columnspan=5)
 
 EraserButton = tk.Button(root, text="Eraser", font=("Arieal", 10), command=on_erase)
-EraserButton.grid(row=0,column=0)
+EraserButton.grid(row=0,column=1)
 PencilButton = tk.Button(root, text="Pencil", font=("Arieal", 10), command=on_pencil)
-PencilButton.grid(row=0,column=1)
-DebugButton = tk.Button(root, text="Debug", font=("Arial", 10), command=on_debug)
-DebugButton.grid(row=0,column=2)
+PencilButton.grid(row=0,column=2)
+DebugButton = tk.Button(root, text="Debug", font=("Arieal", 10), command=on_debug)
+DebugButton.grid(row=0,column=3)
+#SaveButton = tk.Button(root, text="Save", font=("Arieal", 10),command=save)
+#SaveButton.grid(row=0,column=0)
 
 Userspace.bind('<B1-Motion>', on_hold_down)
 Userspace.bind('<Button-1>', on_tap)
