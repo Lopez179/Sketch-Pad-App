@@ -2,3 +2,5 @@ Run Instructions:
 
 In command terminal, type:
 python3 main.py
+
+This is a work in progress. I hope to support file saving in the near future
