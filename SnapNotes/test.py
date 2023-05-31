@@ -1,61 +1,38 @@
-import tkinter as tk
-from assets import *
-from ctypes import windll
-import os
-import pickle as pck
-
-#Settings
-run_height = 300
-run_width = 500
-run_size = str(run_width) + "x" + str(run_height)
-pencil_size = 1
-
-#Open Window
-root = tk.Tk()
-root.geometry(run_size)
-root.title("SmartSketch v0")
-
-#Get Program Working
-Userboard = Board(run_width,run_height)
-
-#Program Functions
-def graphite(point,colour="black"):
-    x = point[0]
-    y = point[1]
-    Userspace.create_rectangle(x,y,x,y,fill=colour)
-    placement_record.append((x,y))
-
-def round_point(center, radius, colour="black"):
-    for i in range(center[0]-radius,center[0]+radius+1):
-        for j in range(center[1]-radius,center[1]+radius+1):
-            if (i - center[0])**2 + (j - center[1])**2 <= radius**2:
-                    graphite((i,j), colour)
-
-def pencil_tip(center,radius,colour="black"):
-    for i in range(center[0]-radius,center[0]+radius):
-        for j in range(center[1]-radius,center[1]+radius):
-            graphite((i,j), colour)
-
-
-def on_stroke(event):
-    x, y = event.x, event.y
-
-    pencil_tip((x,y), pencil_size)
-
-def on_tap(event):
-    x, y = event.x, event.y
-
-    round_point((x,y), pencil_size)
-
-
-Userspace = tk.Canvas(root, height=(run_height) - 30, width=run_width)
-Userspace.grid(row=1,column=0)
-
-Userspace.bind('<B1-Motion>', on_stroke)
-root.bind('<Button-1>', on_tap)
-
-
-root.mainloop()
+# Import the library tkinter
+from tkinter import *
+  
+# Create a GUI app
+app = Tk()
+  
+# Set the title and geometry to your app
+app.title("Geeks For Geeks")
+app.geometry("800x500")
+  
+# Create menubar by setting the color
+menubar = Menu(app, background='blue', fg='white')
+  
+# Declare file and edit for showing in menubar
+file = Menu(menubar, tearoff=False)
+edit = Menu(menubar, tearoff=False)
+  
+# Add commands in in file menu
+file.add_command(label="New")
+file.add_command(label="Exit", command=app.quit)
+  
+# Add commands in edit menu
+edit.add_command(label="Cut")
+edit.add_command(label="Copy")
+edit.add_command(label="Paste")
+  
+# Display the file and edit declared in previous step
+menubar.add_cascade(label="File", menu=file)
+menubar.add_cascade(label="Edit", menu=edit)
+  
+# Displaying of menubar in the app
+app.config(menu=menubar)
+  
+# Make infinite loop for displaying app on screen
+app.mainloop()
 
 
 

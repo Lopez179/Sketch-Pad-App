@@ -43,7 +43,15 @@ class Board:
             if self.stroke_list[i] == stroke_address:
                 self.stroke_list[i] = None
     
-
+    def load_stroke(self, StrokeSave, Userspace):
+        current_stroke = Stroke(StrokeSave.colour, Userspace)
+        self.stroke_list.append(current_stroke)
+        for i in StrokeSave.coverage_points:
+            current_stroke.coverage.append(Userspace.create_rectangle(i[0],i[1],i[0],i[1],fill=StrokeSave.colour))
+            self.link_point(i[0],i[1],self.stroke_list[-1])
+        current_stroke.coverage_points = StrokeSave.coverage_points
+            
+    
 class Stroke:
     def __init__(self, colour, Userspace):
         self.Userspace = Userspace
@@ -54,6 +62,22 @@ class Stroke:
     def erase_coverage(self):
         for i in self.coverage:
             self.Userspace.delete(i)
+        self.coverage_points.clear()
+
+
+class StrokeSave:
+    def __init__(self, colour, coverage_points):
+        self.coverage_points = coverage_points
+        self.colour = colour
+
+
+class SaveObject:
+    def __init__(self, board):
+        self.strokes = []
+        for i in board.stroke_list:
+            self.strokes.append(StrokeSave(i.colour, i.coverage_points))
+        
+    
 
 
 
